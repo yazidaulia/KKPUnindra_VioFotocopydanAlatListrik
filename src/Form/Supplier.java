@@ -39,7 +39,7 @@ public class Supplier extends javax.swing.JFrame {
     tabmode = new DefaultTableModel(null,Baris);
     String cariitem=txtcari.getText();
     try {
-    String sql = "Select * from supplier where id like '%"+cariitem+"%' or nama like '%"+cariitem+"%' order by id asc";
+    String sql = "Select * from supplier where id like '%"+cariitem+"%' or nama_supplier like '%"+cariitem+"%' order by id asc";
     Statement stat = conn.createStatement();
     ResultSet hasil = stat.executeQuery(sql);
     while (hasil.next()){
@@ -432,7 +432,7 @@ public class Supplier extends javax.swing.JFrame {
     }//GEN-LAST:event_bexitActionPerformed
 
     private void bsimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bsimpanActionPerformed
-        String sql = "insert into supplier (id,nama,telepon,alamat) values ('"+txtid.getText()+"','"+txtnama.getText()+"','"+txttlp.getText()+"','"+txtalamat.getText()+"')";
+        String sql = "insert into supplier (id,nama_supplier,telepon,alamat) values ('"+txtid.getText()+"','"+txtnama.getText()+"','"+txttlp.getText()+"','"+txtalamat.getText()+"')";
         try{
             PreparedStatement stat = conn.prepareStatement(sql);
             stat.executeUpdate();
@@ -448,7 +448,7 @@ public class Supplier extends javax.swing.JFrame {
     }//GEN-LAST:event_bsimpanActionPerformed
 
     private void bubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bubahActionPerformed
-        String sql = "Update supplier set nama='"+txtnama.getText()+"',telepon='"+txttlp.getText()+"', alamat='"+txtalamat.getText()+"' where id='"+txtid.getText()+"'";
+        String sql = "Update supplier set nama_supplier='"+txtnama.getText()+"',telepon='"+txttlp.getText()+"', alamat='"+txtalamat.getText()+"' where id='"+txtid.getText()+"'";
         try{
             PreparedStatement stat = conn.prepareStatement(sql);
           
