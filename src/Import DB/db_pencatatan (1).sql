@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 21, 2021 at 10:46 AM
+-- Generation Time: Jun 02, 2021 at 02:47 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -65,12 +65,12 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`id_supplier`, `id_barang`, `nama`, `keterangan`, `stok`, `harga`) VALUES
-('SPR-001', 'BRG-0003', 'TL PHILIPS 10 WATT', 'Barang', 18, 10500),
+('SPR-001', 'BRG-0003', 'TL PHILIPS 10 WATT', 'Barang', 100, 10500),
 ('SPR-001', 'BRG-0004', 'TL PHILIPS 18 WATT', 'Barang', 17, 18900),
-('SPR-001', 'BRG-0005', 'TL PHILIPS 36 WATT', 'Barang', 18, 26250),
+('SPR-001', 'BRG-0005', 'TL PHILIPS 36 WATT', 'Barang', 15, 26250),
 ('SPR-001', 'BRG-0006', 'PHILIPS E55 5 WATT', 'Barang', 16, 36750),
 ('SPR-001', 'BRG-0007', 'PHILIPS E55 8 WATT', 'Barang', 17, 39900),
-('SPR-001', 'BRG-0008', 'PHILIPS E55 11 WATT', 'Barang', 19, 42000),
+('SPR-001', 'BRG-0008', 'PHILIPS E55 11 WATT', 'Barang', 17, 42000),
 ('SPR-001', 'BRG-0009', 'PHILIPS E55 14 WATT', 'Barang', 20, 47250),
 ('SPR-001', 'BRG-0010', 'PHILIPS E55 18 WATT', 'Barang', 20, 52500),
 ('SPR-001', 'BRG-0011', 'PHILIPS E55 23 WATT', 'Barang', 20, 57750),
@@ -145,7 +145,9 @@ INSERT INTO `barang` (`id_supplier`, `id_barang`, `nama`, `keterangan`, `stok`, 
 ('SPR-001', 'BRG-0080', 'BALAS BIASA 40 WATT', 'Barang', 20, 26250),
 ('SPR-001', 'BRG-0081', 'BALAS PHILIPS 10 WATT', 'Barang', 20, 52500),
 ('SPR-001', 'BRG-0082', 'BALAS PHILIPS 20 WATT', 'Barang', 20, 52500),
-('SPR-001', 'BRG-0083', 'BALAS PHILIPS 40 WATT', 'Barang', 20, 52500);
+('SPR-001', 'BRG-0083', 'BALAS PHILIPS 40 WATT', 'Barang', 20, 52500),
+('SPR-002', 'BRG-0084', 'Eveready AA', 'Barang', 240, 3000),
+('SPR-001', 'BRG-0085', 'Eveready AAA', 'Barang', 20, 3000);
 
 -- --------------------------------------------------------
 
@@ -156,10 +158,9 @@ INSERT INTO `barang` (`id_supplier`, `id_barang`, `nama`, `keterangan`, `stok`, 
 CREATE TABLE `laporan` (
   `id_laporan` varchar(10) NOT NULL,
   `id_admin` varchar(10) NOT NULL,
-  `id_barang` varchar(10) NOT NULL,
+  `id_transaksi` varchar(10) NOT NULL,
   `jenis_laporan` varchar(15) NOT NULL,
   `periode_laporan` varchar(20) NOT NULL,
-  `QTY` int(11) NOT NULL,
   `total` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -167,11 +168,17 @@ CREATE TABLE `laporan` (
 -- Dumping data for table `laporan`
 --
 
-INSERT INTO `laporan` (`id_laporan`, `id_admin`, `id_barang`, `jenis_laporan`, `periode_laporan`, `QTY`, `total`) VALUES
-('LP-0001', 'ADM-001', 'BRG-0001', 'Pembelian', 'Maret', 0, 500000),
-('LP-0002', 'ADM-001', 'BRG-0001', 'Pembelian', 'Maret', 2, 200000),
-('LP-0003', 'ADM-001', 'BRG-0002', 'Pembelian', 'April', 0, 150000),
-('LP-0004', 'ADM-003', 'BRG-0007', 'Penjualan', 'April', 1, 39900);
+INSERT INTO `laporan` (`id_laporan`, `id_admin`, `id_transaksi`, `jenis_laporan`, `periode_laporan`, `total`) VALUES
+('LP-0001', 'ADM-001', 'BRG-0001', 'Pembelian', 'Maret', 500000),
+('LP-0002', 'ADM-001', 'BRG-0001', 'Pembelian', 'Maret', 200000),
+('LP-0003', 'ADM-001', 'BRG-0002', 'Pembelian', 'April', 150000),
+('LP-0004', 'ADM-003', 'TRX-0005', 'Penjualan', 'Mei', 21000),
+('LP-0005', 'ADM-003', 'TRX-0006', 'Penjualan', 'Mei', 21000),
+('LP-0006', 'ADM-003', 'TRX-0005', 'Pembelian', 'Mei', 100000),
+('LP-0007', 'ADM-003', 'TRX-0007', 'Pembelian', 'Mei', 150000),
+('LP-0008', 'ADM-003', 'TRX-0008', 'Pembelian', 'Mei', 150000),
+('LP-0009', 'ADM-003', 'TRX-0008', 'Pembelian', 'Mei', 2000),
+('LP-0010', 'ADM-003', 'TRX-0009', 'Pembelian', 'Mei', 2000);
 
 -- --------------------------------------------------------
 
@@ -181,7 +188,7 @@ INSERT INTO `laporan` (`id_laporan`, `id_admin`, `id_barang`, `jenis_laporan`, `
 
 CREATE TABLE `supplier` (
   `id` varchar(10) NOT NULL,
-  `nama` varchar(20) NOT NULL,
+  `nama_supplier` varchar(20) NOT NULL,
   `telepon` varchar(13) NOT NULL,
   `alamat` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -190,7 +197,7 @@ CREATE TABLE `supplier` (
 -- Dumping data for table `supplier`
 --
 
-INSERT INTO `supplier` (`id`, `nama`, `telepon`, `alamat`) VALUES
+INSERT INTO `supplier` (`id`, `nama_supplier`, `telepon`, `alamat`) VALUES
 ('SPR-001', 'PT Honoris Industry', '(0251)8240322', 'Jl. Raya Sukabumi KM. 2, Ciawi, Bogor'),
 ('SPR-002', 'UD Mitra Baru', '(021)31902226', 'Jl. Kramat Raya, No 101, Paseban, Kec. Senen, Kota Jakarta Pusat'),
 ('SPR-003', 'PT Bintang Bunut', '02182615000', 'Jl. Raya Mustika Jaya Kota Legenda RT 002/ RW 12'),
@@ -218,9 +225,10 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`id_admin`, `id_transaksi`, `tanggal`, `id_barang`, `harga_barang`, `qty`, `total`) VALUES
-('ADM-003', 'TRX-0001', '2021-04-19', 'BRG-0005', 26250, 2, 52500),
-('ADM-003', 'TRX-0002', '2021-04-21', 'BRG-0008', 42000, 1, 42000),
-('ADM-003', 'TRX-0003', '2021-04-21', 'BRG-0007', 39900, 1, 39900);
+('ADM-003', 'TRX-0005', '2021-05-20', 'BRG-0003', 10500, 2, 21000),
+('ADM-003', 'TRX-0006', '2021-05-21', 'BRG-0003', 10500, 2, 21000),
+('ADM-003', 'TRX-0007', '2021-05-25', 'BRG-0085', 4000, 2, 300000),
+('ADM-003', 'TRX-0008', '2021-05-29', 'BRG-0085', 3000, 20, 40000);
 
 --
 -- Indexes for dumped tables
