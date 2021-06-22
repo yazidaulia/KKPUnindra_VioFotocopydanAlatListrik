@@ -107,134 +107,8 @@ public class Barang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Auto Number Gagal"+e);
         }
     }
-    
-    protected void autonumber_transaksi(){
-        try {
-            String sql = "SELECT id_transaksi from transaksi order by id_transaksi asc";
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()) {
-                String no_transaksi = rs.getString("id_transaksi").substring(4);
-                int AN = Integer.parseInt(no_transaksi) + 1;
-                String Nol = "";
-                
-                if(AN<10)
-                {Nol = "000";}
-                else if(AN<100)
-                {Nol = "00";}
-                else if(AN<1000)
-                {Nol = "0";}
-                else if(AN<10000)
-                {Nol = "";}
-                
-                id_transaksi = "TRX-" + Nol + AN;
-            }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Auto Number Gagal"+e);
-        }
-    }
-    
-    protected void autonumber_laporan(){
-        try {
-            String sql = "SELECT id_laporan from laporan order by id_laporan asc";
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()) {
-                String no_transaksi = rs.getString("id_laporan").substring(3);
-                int AN = Integer.parseInt(no_transaksi) + 1;
-                String Nol = "";
-                
-                if(AN<10)
-                {Nol = "000";}
-                else if(AN<100)
-                {Nol = "00";}
-                else if(AN<1000)
-                {Nol = "0";}
-                else if(AN<10000)
-                {Nol = "";}
-                
-                id_lap = "LP-" + Nol + AN;
-            }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Auto Number Gagal"+e);
-        }
-    }
         
-    //menuju tabel laporan
-     /*public void simpan_laporan(){
-        autonumber_transaksi();
-        autonumber_laporan();
-        jenis_lap = "Pembelian";
-        total_transaksi = Integer.parseInt(txthb.getText())*Integer.parseInt(txtstok.getText());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String fd = sdf.format(jtgl.getValue()).substring(5,7);;
-               //fungsi if
-               if(fd.equalsIgnoreCase("01")){
-                   periode = "Januari";
-               }
-               else if(fd.equalsIgnoreCase("02")){
-                   periode = "Februari";
-               }
-               else if(fd.equalsIgnoreCase("03")){
-                   periode = "Maret";
-               }
-               else if(fd.equalsIgnoreCase("04")){
-                   periode = "April";
-               }
-               else if(fd.equalsIgnoreCase("05")){
-                   periode = "Mei";
-               }
-               else if(fd.equalsIgnoreCase("06")){
-                   periode = "Juni";
-               }
-               else if(fd.equalsIgnoreCase("07")){
-                   periode = "Juli";
-               }
-               else if(fd.equalsIgnoreCase("08")){
-                   periode = "Agustus";
-               }
-               else if(fd.equalsIgnoreCase("09")){
-                   periode = "September";
-               }
-               else if(fd.equalsIgnoreCase("10")){
-                   periode = "Oktober";
-               }
-               else if(fd.equalsIgnoreCase("11")){
-                   periode = "November";
-               }
-               else{
-                   periode = "Desember";
-               }
-               
-                String sql2 = "insert into laporan (id_laporan,id_admin,id_transaksi,jenis_laporan,periode_laporan,total) values ('"+id_lap+"','"+KD+"','"+id_transaksi+"','"+jenis_lap+"','"+periode+"','"+total_transaksi+"')";
-                try{
-                    PreparedStatement stat = conn.prepareStatement(sql2);
-                    stat.executeUpdate();;
-                }
-                catch (SQLException e){
-                    JOptionPane.showMessageDialog(null, "Data gagal disimpan ke laporan pembelian karena "+e);
-                }
-           }*/
-    
-     //menuju tabel transaksi
-     /*public void simpan_transaksi(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String fdt = sdf.format(jtgl.getValue());
-        hrg_barang = txtharga.getText();
-        tot_transaksi2 = Integer.parseInt(txthb.getText()) * Integer.parseInt(txtstok.getText());
-        id_barang = txtidb.getText();
-        qty = txtstok.getText();
-                String sql3 = "insert into transaksi (id_admin,id_transaksi,tanggal,id_barang,harga_barang,qty,total) values ('"+KD+"','"+id_transaksi+"','"+fdt+"','"+id_barang+"','"+hrg_barang+"','"+qty+"','"+tot_transaksi2+"')";
-                try{
-                    PreparedStatement stat = conn.prepareStatement(sql3);
-                    stat.executeUpdate();;
-                }
-                catch (SQLException e){
-                    JOptionPane.showMessageDialog(null, "Data gagal disimpan ke transaksi karena "+e);
-                }
-     }*/
-     
-     //pop up konversi, blm tuntas
+     //konversi satuan barang
      public void konversi(){
         String satuan_awal = cb_brg.getSelectedItem().toString();
         jumlah_awal = Integer.parseInt(txtstok.getText());
@@ -730,8 +604,6 @@ public class Barang extends javax.swing.JFrame {
            try{
                 PreparedStatement stat = conn.prepareStatement(sql);
                 stat.executeUpdate();
-                /*simpan_laporan();
-                simpan_transaksi();*/
                 JOptionPane.showMessageDialog(null,"Data berhasil disimpan");
                 txtidb.requestFocus();
             }
@@ -743,8 +615,6 @@ public class Barang extends javax.swing.JFrame {
         kosong();
         datatable();
         autonumber();
-        autonumber_laporan();
-        autonumber_transaksi();
     }//GEN-LAST:event_bsimpanActionPerformed
 
     private void bubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bubahActionPerformed
@@ -767,8 +637,6 @@ public class Barang extends javax.swing.JFrame {
                 String sql = "Update barang set id_supplier='"+txtids.getText()+"', nama='"+txtnama.getText()+"', keterangan='"+jenis+"', stok=stok+'"+jumlah+"', harga='"+txtharga.getText()+"' where id_barang='"+txtidb.getText()+"'";
                 try{
                     PreparedStatement stat = conn.prepareStatement(sql);
-                    /*simpan_laporan();
-                    simpan_transaksi();*/
                     stat.executeUpdate();
                     JOptionPane.showMessageDialog(null,"Data berhasil diubah");
                     kosong();
