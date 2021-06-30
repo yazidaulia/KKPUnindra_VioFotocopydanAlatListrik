@@ -294,7 +294,9 @@ public class Laporan extends javax.swing.JFrame {
 
     private void cetakpembelianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cetakpembelianActionPerformed
         try {
+            String Periode = cbPeriode.getSelectedItem().toString();
             HashMap parameter = new HashMap();
+            parameter.put("periode", Periode);
             Class.forName("com.mysql.jdbc.Driver");
             Connection connect = DriverManager.getConnection("jdbc:mysql://localhost/db_pencatatan","root","");
             File file = new File("src/iReport/iReportpembelian.jasper");
